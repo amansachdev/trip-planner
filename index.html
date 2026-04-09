@@ -1,0 +1,1892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>December 2026 — Where Are We Going? 🌏</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --vn: #00A0F0; --vn-dark: #0077b6; --vn-glow: rgba(0,160,240,0.25);
+    --sg: #BF0000; --sg-dark: #8c0000; --sg-glow: rgba(191,0,0,0.25);
+    --my: #00B900; --my-dark: #007a00; --my-glow: rgba(0,185,0,0.25);
+    --sm: #F59600; --sm-dark: #b87101; --sm-glow: rgba(245,150,0,0.25);
+    --dark: #080d1a; --dark2: #0e1628; --dark3: #141e35;
+    --card: rgba(255,255,255,0.04); --card-border: rgba(255,255,255,0.08);
+    --text: #f0f4ff; --text-muted: rgba(240,244,255,0.55);
+    --font-head: 'Syne', sans-serif; --font-body: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--dark);
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* ─── STARFIELD ─────────────────────────── */
+  #canvas-bg {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.6;
+  }
+
+  .wrap { position: relative; z-index: 1; }
+
+  /* ─── HERO ──────────────────────────────── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    position: relative;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,160,240,0.12) 0%, transparent 70%),
+                radial-gradient(ellipse 60% 40% at 80% 80%, rgba(245,150,0,0.08) 0%, transparent 60%);
+  }
+
+  .hero-eyebrow {
+    font-family: var(--font-head);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--sm);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: var(--font-head);
+    font-size: clamp(2.4rem, 7vw, 6rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+
+  .hero-title .globe {
+    display: inline-block;
+    animation: spin 8s linear infinite;
+  }
+
+  .hero-title .highlight {
+    background: linear-gradient(135deg, var(--vn), var(--my));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .hero-pills {
+    display: flex; flex-wrap: wrap; gap: 0.75rem;
+    justify-content: center;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+
+  .pill {
+    padding: 0.45rem 1.2rem;
+    border-radius: 2rem;
+    border: 1px solid var(--card-border);
+    background: var(--card);
+    font-size: 0.85rem;
+    font-weight: 500;
+    backdrop-filter: blur(8px);
+  }
+
+  .pill .icon { margin-right: 0.4rem; }
+
+  .hero-scroll {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    opacity: 0;
+    animation: fadeUp 0.8s 1s forwards, bounce 2s 2s ease-in-out infinite;
+  }
+
+  /* ─── SECTION ───────────────────────────── */
+  section {
+    padding: 5rem 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .sec-label {
+    font-family: var(--font-head);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--sm);
+    margin-bottom: 0.75rem;
+  }
+
+  .sec-title {
+    font-family: var(--font-head);
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+
+  .sec-desc {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-bottom: 3rem;
+    max-width: 600px;
+  }
+
+  /* ─── DIVIDER ───────────────────────────── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--card-border), transparent);
+    margin: 0 1.5rem;
+  }
+
+  /* ─── COMPARISON CARDS ──────────────────── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .dest-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 1.25rem;
+    padding: 1.75rem;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .dest-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--c);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s;
+  }
+
+  .dest-card:hover::before { transform: scaleX(1); }
+
+  .dest-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px var(--glow);
+    border-color: var(--c);
+  }
+
+  .dest-card[data-dest="vn"] { --c: var(--vn); --glow: var(--vn-glow); }
+  .dest-card[data-dest="sg"] { --c: var(--sg); --glow: var(--sg-glow); }
+  .dest-card[data-dest="my"] { --c: var(--my); --glow: var(--my-glow); }
+  .dest-card[data-dest="sm"] { --c: var(--sm); --glow: var(--sm-glow); }
+
+  .card-flag {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .card-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    border-radius: 2rem;
+    background: color-mix(in srgb, var(--c) 20%, transparent);
+    color: var(--c);
+    border: 1px solid color-mix(in srgb, var(--c) 40%, transparent);
+    margin-bottom: 0.8rem;
+  }
+
+  .card-name {
+    font-family: var(--font-head);
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--c);
+    margin-bottom: 0.5rem;
+  }
+
+  .card-budget {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  .card-meta {
+    display: flex; flex-direction: column; gap: 0.4rem;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+
+  .card-meta-row {
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+
+  .card-meta-row .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--c); flex-shrink: 0;
+  }
+
+  .weather-score {
+    display: inline-flex;
+    align-items: center; gap: 0.4rem;
+    font-weight: 600;
+    color: var(--c);
+  }
+
+  .stars { letter-spacing: 1px; }
+
+  .card-explore-btn {
+    display: block;
+    margin-top: 1.25rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.6rem;
+    background: color-mix(in srgb, var(--c) 15%, transparent);
+    border: 1px solid color-mix(in srgb, var(--c) 30%, transparent);
+    color: var(--c);
+    font-family: var(--font-head);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-align: center;
+    transition: background 0.2s;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .card-explore-btn:hover {
+    background: color-mix(in srgb, var(--c) 30%, transparent);
+  }
+
+  /* ─── DESTINATION TABS ──────────────────── */
+  .tab-nav {
+    display: flex; gap: 0.5rem; flex-wrap: wrap;
+    margin-bottom: 2rem;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 0.75rem;
+    padding: 0.4rem;
+  }
+
+  .tab-btn {
+    flex: 1; min-width: 120px;
+    padding: 0.7rem 1rem;
+    border-radius: 0.5rem;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-family: var(--font-head);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-align: center;
+  }
+
+  .tab-btn.active {
+    background: var(--tab-c);
+    color: white;
+    box-shadow: 0 4px 20px var(--tab-glow);
+  }
+
+  .tab-btn[data-tab="vn"] { --tab-c: var(--vn); --tab-glow: var(--vn-glow); }
+  .tab-btn[data-tab="sg"] { --tab-c: var(--sg); --tab-glow: var(--sg-glow); }
+  .tab-btn[data-tab="my"] { --tab-c: var(--my); --tab-glow: var(--my-glow); }
+  .tab-btn[data-tab="sm"] { --tab-c: var(--sm); --tab-glow: var(--sm-glow); }
+
+  .tab-panel { display: none; }
+  .tab-panel.active {
+    display: block;
+    animation: fadeIn 0.4s ease;
+  }
+
+  .dest-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .dest-detail-grid { grid-template-columns: 1fr; }
+  }
+
+  .detail-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 1rem;
+    padding: 1.5rem;
+  }
+
+  .detail-card-title {
+    font-family: var(--font-head);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dc);
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  /* Budget table */
+  .budget-tbl { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .budget-tbl tr { border-bottom: 1px solid var(--card-border); }
+  .budget-tbl tr:last-child { border-bottom: none; }
+  .budget-tbl td { padding: 0.55rem 0; }
+  .budget-tbl td:last-child { text-align: right; font-weight: 500; }
+  .budget-tbl tr.total-row td {
+    color: var(--dc);
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding-top: 0.8rem;
+  }
+
+  /* Itinerary */
+  .itinerary-list { list-style: none; }
+  .itinerary-list li {
+    display: flex; gap: 0.75rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--card-border);
+    font-size: 0.87rem;
+  }
+  .itinerary-list li:last-child { border-bottom: none; }
+  .itin-day {
+    min-width: 44px;
+    height: 24px;
+    background: color-mix(in srgb, var(--dc) 20%, transparent);
+    border: 1px solid color-mix(in srgb, var(--dc) 40%, transparent);
+    color: var(--dc);
+    font-size: 0.7rem;
+    font-weight: 700;
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .itin-content { flex: 1; }
+  .itin-loc {
+    font-weight: 600;
+    color: var(--dc);
+    font-size: 0.82rem;
+    margin-bottom: 0.1rem;
+  }
+  .itin-act { color: var(--text-muted); line-height: 1.4; }
+
+  /* Pros/Cons */
+  .pros-cons-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+  }
+  @media (max-width: 600px) {
+    .pros-cons-grid { grid-template-columns: 1fr; }
+  }
+  .pc-col { }
+  .pc-head {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  .pc-head.pros { color: var(--my); }
+  .pc-head.cons { color: var(--sg); }
+  .pc-list { list-style: none; }
+  .pc-list li {
+    font-size: 0.87rem;
+    color: var(--text-muted);
+    padding: 0.4rem 0;
+    padding-left: 1.2rem;
+    position: relative;
+    border-bottom: 1px solid var(--card-border);
+    line-height: 1.4;
+  }
+  .pc-list li:last-child { border-bottom: none; }
+  .pc-list li::before {
+    content: ''; position: absolute; left: 0; top: 0.75rem;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--dot-c);
+  }
+  .pc-list.pros li { --dot-c: var(--my); }
+  .pc-list.cons li { --dot-c: var(--sg); }
+
+  /* ─── BUDGET CHART ──────────────────────── */
+  .budget-chart { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .bchart-row { }
+  .bchart-label {
+    display: flex; justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.88rem;
+  }
+  .bchart-dest { font-family: var(--font-head); font-weight: 700; }
+  .bchart-range { color: var(--text-muted); font-size: 0.8rem; }
+
+  .bchart-track {
+    height: 10px;
+    background: var(--card-border);
+    border-radius: 5px;
+    position: relative;
+    overflow: visible;
+  }
+
+  .bchart-bar {
+    height: 100%;
+    border-radius: 5px;
+    background: var(--bc);
+    transition: width 1.2s cubic-bezier(0.22,1,0.36,1);
+    box-shadow: 0 0 12px var(--bc-glow);
+    position: relative;
+  }
+
+  .bchart-bar::after {
+    content: attr(data-label);
+    position: absolute;
+    right: -2px; top: -26px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--bc);
+    white-space: nowrap;
+  }
+
+  .budget-legend {
+    display: flex; flex-wrap: wrap; gap: 1.5rem;
+    margin-top: 1.5rem;
+    padding: 1.25rem;
+    background: var(--card);
+    border-radius: 0.75rem;
+    border: 1px solid var(--card-border);
+    font-size: 0.85rem;
+  }
+
+  .legend-item {
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
+
+  /* ─── SCORECARD ─────────────────────────── */
+  .scorecard-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .score-row { }
+
+  .score-row-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.6rem;
+  }
+
+  .score-cat {
+    font-family: var(--font-head);
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .score-bars {
+    display: flex; gap: 0.5rem;
+  }
+
+  .score-track {
+    flex: 1;
+    height: 8px;
+    background: var(--card-border);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .score-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 1s 0.3s cubic-bezier(0.22,1,0.36,1);
+    background: var(--sc);
+  }
+
+  .score-labels {
+    display: flex; gap: 0.5rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .score-lbl {
+    flex: 1;
+    text-align: center;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+  }
+
+  /* ─── QUIZ ──────────────────────────────── */
+  .quiz-wrap {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 1.5rem;
+    padding: 2.5rem;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .quiz-progress {
+    display: flex; gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .qp-dot {
+    flex: 1; height: 4px; border-radius: 2px;
+    background: var(--card-border);
+    transition: background 0.3s;
+  }
+  .qp-dot.active { background: var(--sm); }
+  .qp-dot.done { background: var(--my); }
+
+  .quiz-q {
+    font-family: var(--font-head);
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+  }
+
+  .quiz-hint {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+  }
+
+  .quiz-options { display: flex; flex-direction: column; gap: 0.75rem; }
+
+  .quiz-opt {
+    padding: 1rem 1.25rem;
+    border-radius: 0.75rem;
+    border: 1.5px solid var(--card-border);
+    background: transparent;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .quiz-opt:hover {
+    border-color: var(--sm);
+    background: rgba(245,150,0,0.08);
+    transform: translateX(4px);
+  }
+
+  .quiz-opt.selected {
+    border-color: var(--sm);
+    background: rgba(245,150,0,0.15);
+  }
+
+  .quiz-result {
+    display: none;
+    text-align: center;
+    padding: 1rem;
+    animation: fadeIn 0.5s ease;
+  }
+
+  .quiz-result.show { display: block; }
+
+  .result-badge {
+    display: inline-block;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .result-title {
+    font-family: var(--font-head);
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--rc);
+    margin-bottom: 0.5rem;
+  }
+
+  .result-reason {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .quiz-reset-btn {
+    padding: 0.7rem 1.5rem;
+    border-radius: 2rem;
+    border: 1px solid var(--card-border);
+    background: transparent;
+    color: var(--text-muted);
+    font-family: var(--font-head);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .quiz-reset-btn:hover { background: var(--card); color: var(--text); }
+
+  /* ─── VOTE ───────────────────────────────── */
+  .vote-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .vote-card {
+    background: var(--card);
+    border: 2px solid var(--card-border);
+    border-radius: 1.25rem;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .vote-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--vc);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .vote-card:hover::before { opacity: 0.06; }
+
+  .vote-card.voted {
+    border-color: var(--vc);
+    box-shadow: 0 0 30px var(--vg);
+  }
+
+  .vote-card.voted::before { opacity: 0.12; }
+
+  .vote-card[data-vote="vn"] { --vc: var(--vn); --vg: var(--vn-glow); }
+  .vote-card[data-vote="sg"] { --vc: var(--sg); --vg: var(--sg-glow); }
+  .vote-card[data-vote="my"] { --vc: var(--my); --vg: var(--my-glow); }
+  .vote-card[data-vote="sm"] { --vc: var(--sm); --vg: var(--sm-glow); }
+
+  .vote-letter {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--vc) 20%, transparent);
+    border: 2px solid color-mix(in srgb, var(--vc) 50%, transparent);
+    color: var(--vc);
+    font-family: var(--font-head);
+    font-size: 1.6rem;
+    font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1rem;
+    transition: all 0.3s;
+    position: relative;
+  }
+
+  .vote-card.voted .vote-letter {
+    background: var(--vc);
+    color: white;
+    box-shadow: 0 0 20px var(--vg);
+  }
+
+  .vote-dest {
+    font-family: var(--font-head);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--vc);
+    margin-bottom: 0.4rem;
+    position: relative;
+  }
+
+  .vote-tag {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .vote-count {
+    font-family: var(--font-head);
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--vc);
+    transition: transform 0.3s;
+    position: relative;
+  }
+
+  .vote-count-lbl {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    position: relative;
+  }
+
+  .vote-bar-wrap {
+    margin-top: 1rem;
+    height: 4px;
+    background: var(--card-border);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .vote-bar {
+    height: 100%;
+    background: var(--vc);
+    border-radius: 2px;
+    transition: width 0.5s cubic-bezier(0.22,1,0.36,1);
+  }
+
+  .vote-instruction {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    padding: 1.25rem;
+    background: var(--card);
+    border-radius: 0.75rem;
+    border: 1px solid var(--card-border);
+  }
+
+  .vote-reset {
+    display: block;
+    margin: 1rem auto 0;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1px solid var(--card-border);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    border-radius: 2rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .vote-reset:hover { background: var(--card); color: var(--text); }
+
+  /* ─── EXPERT RECS ────────────────────────── */
+  .rec-list { display: flex; flex-direction: column; gap: 1.25rem; }
+
+  .rec-item {
+    display: flex; gap: 1.25rem;
+    padding: 1.5rem;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 1rem;
+    align-items: flex-start;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .rec-item:hover {
+    transform: translateX(6px);
+    box-shadow: -4px 0 20px var(--ri-glow);
+    border-left-color: var(--ri-c);
+    border-left-width: 3px;
+  }
+
+  .rec-item[data-ri="vn"] { --ri-c: var(--vn); --ri-glow: var(--vn-glow); }
+  .rec-item[data-ri="sg"] { --ri-c: var(--sg); --ri-glow: var(--sg-glow); }
+  .rec-item[data-ri="my"] { --ri-c: var(--my); --ri-glow: var(--my-glow); }
+  .rec-item[data-ri="sm"] { --ri-c: var(--sm); --ri-glow: var(--sm-glow); }
+
+  .rec-rank {
+    width: 44px; height: 44px; flex-shrink: 0;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--ri-c) 20%, transparent);
+    border: 1px solid color-mix(in srgb, var(--ri-c) 50%, transparent);
+    color: var(--ri-c);
+    font-family: var(--font-head);
+    font-size: 1.1rem;
+    font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .rec-body { flex: 1; }
+
+  .rec-head {
+    display: flex; align-items: center; gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.4rem;
+  }
+
+  .rec-name {
+    font-family: var(--font-head);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--ri-c);
+  }
+
+  .rec-tag {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    border-radius: 2rem;
+    background: color-mix(in srgb, var(--ri-c) 20%, transparent);
+    color: var(--ri-c);
+    border: 1px solid color-mix(in srgb, var(--ri-c) 40%, transparent);
+  }
+
+  .rec-text {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+    margin-bottom: 0.5rem;
+  }
+
+  .rec-who {
+    font-size: 0.8rem;
+    color: var(--ri-c);
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  /* ─── FOOTER ─────────────────────────────── */
+  .footer {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--card-border);
+    background: linear-gradient(to top, rgba(0,160,240,0.04), transparent);
+  }
+
+  .footer a { color: var(--vn); text-decoration: none; }
+
+  /* ─── ANIMATIONS ─────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); } to { transform: rotate(360deg); }
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(8px); }
+  }
+
+  @keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+  }
+
+  .pop { animation: pop 0.35s ease; }
+
+  /* ─── REVEAL ON SCROLL ───────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── RESPONSIVE ─────────────────────────── */
+  @media (max-width: 768px) {
+    section { padding: 3.5rem 1rem; }
+    .tab-btn { min-width: unset; font-size: 0.75rem; padding: 0.6rem 0.6rem; }
+    .quiz-wrap { padding: 1.5rem; }
+    .quiz-q { font-size: 1.1rem; }
+    .rec-item { flex-direction: row; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="canvas-bg"></canvas>
+
+<div class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<div class="hero">
+  <div class="hero-eyebrow">🗺️ Group Trip Planning · 2026</div>
+  <h1 class="hero-title">
+    December 2026<br>
+    <span class="highlight">Where Are We Going?</span>
+    <span class="globe"> 🌏</span>
+  </h1>
+  <p class="hero-sub">Deep research done. Time to compare, decide, and book!</p>
+  <div class="hero-pills">
+    <span class="pill"><span class="icon">💰</span>Budget: Rs. 2–3 Lakhs</span>
+    <span class="pill"><span class="icon">👥</span>2 People</span>
+    <span class="pill"><span class="icon">📅</span>7–8 Days</span>
+    <span class="pill"><span class="icon">✈️</span>From Bengaluru (BLR)</span>
+    <span class="pill"><span class="icon">🎄</span>December 2026</span>
+  </div>
+  <div class="hero-scroll">▼ &nbsp; Scroll to explore options</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════ QUICK COMPARE ══════════ -->
+<section class="reveal">
+  <div class="sec-label">Quick Overview</div>
+  <h2 class="sec-title">4 Destinations. 1 Choice.</h2>
+  <p class="sec-desc">Compare at a glance — click any card to explore the full details below.</p>
+
+  <div class="cards-grid">
+    <div class="dest-card" data-dest="vn" onclick="switchTab('vn'); document.getElementById('details-section').scrollIntoView({behavior:'smooth'})">
+      <span class="card-flag">🇻🇳</span>
+      <div class="card-badge">Option A · Best Value</div>
+      <div class="card-name">Vietnam</div>
+      <div class="card-budget">Rs. 1.59L – 2.65L</div>
+      <div class="card-meta">
+        <div class="card-meta-row"><span class="dot"></span>E-visa: $25 (~3–7 days)</div>
+        <div class="card-meta-row"><span class="dot"></span>
+          <span class="weather-score">Weather <span class="stars">★★★★</span> 7/10</span>
+        </div>
+        <div class="card-meta-row"><span class="dot"></span>Ha Long Bay · Hoi An · HCMC</div>
+        <div class="card-meta-row"><span class="dot"></span>Rs. 3L = LUXURY tier</div>
+      </div>
+      <div class="card-explore-btn">Explore Itinerary →</div>
+    </div>
+
+    <div class="dest-card" data-dest="sg" onclick="switchTab('sg'); document.getElementById('details-section').scrollIntoView({behavior:'smooth'})">
+      <span class="card-flag">🇸🇬</span>
+      <div class="card-badge">Option B · Festive Pick</div>
+      <div class="card-name">Singapore</div>
+      <div class="card-budget">Rs. 2.41L – 3.50L</div>
+      <div class="card-meta">
+        <div class="card-meta-row"><span class="dot"></span>Visa via VFS: Rs. 6,200–7,000</div>
+        <div class="card-meta-row"><span class="dot"></span>
+          <span class="weather-score">Weather <span class="stars">★★★</span> 5/10</span>
+        </div>
+        <div class="card-meta-row"><span class="dot"></span>Christmas Wonderland 🎄</div>
+        <div class="card-meta-row"><span class="dot"></span>Keep 15% rain buffer!</div>
+      </div>
+      <div class="card-explore-btn">Explore Itinerary →</div>
+    </div>
+
+    <div class="dest-card" data-dest="my" onclick="switchTab('my'); document.getElementById('details-section').scrollIntoView({behavior:'smooth'})">
+      <span class="card-flag">🇲🇾</span>
+      <div class="card-badge">Option C · Cheapest 🏆</div>
+      <div class="card-name">Malaysia</div>
+      <div class="card-budget">Rs. 1.30L – 2.03L</div>
+      <div class="card-meta">
+        <div class="card-meta-row"><span class="dot"></span>🆓 VISA FREE until Dec 31, 2026!</div>
+        <div class="card-meta-row"><span class="dot"></span>
+          <span class="weather-score">Weather <span class="stars">★★★★★</span> 9/10</span>
+        </div>
+        <div class="card-meta-row"><span class="dot"></span>Langkawi · Penang · KL</div>
+        <div class="card-meta-row"><span class="dot"></span>Saves Rs. 10,000+ on visa!</div>
+      </div>
+      <div class="card-explore-btn">Explore Itinerary →</div>
+    </div>
+
+    <div class="dest-card" data-dest="sm" onclick="switchTab('sm'); document.getElementById('details-section').scrollIntoView({behavior:'smooth'})">
+      <span class="card-flag">🇸🇬🇲🇾</span>
+      <div class="card-badge">Option D · Max Variety</div>
+      <div class="card-name">SIN + Malaysia</div>
+      <div class="card-budget">Rs. 2.09L – 3.04L</div>
+      <div class="card-meta">
+        <div class="card-meta-row"><span class="dot"></span>1 visa (SIN) · MY is free</div>
+        <div class="card-meta-row"><span class="dot"></span>
+          <span class="weather-score">Weather <span class="stars">★★★★</span> 7/10</span>
+        </div>
+        <div class="card-meta-row"><span class="dot"></span>Open-jaw: BLR→SIN / KUL→BLR</div>
+        <div class="card-meta-row"><span class="dot"></span>City + Beach in one trip</div>
+      </div>
+      <div class="card-explore-btn">Explore Itinerary →</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════ DESTINATION DETAILS ══════════ -->
+<section id="details-section" class="reveal">
+  <div class="sec-label">Deep Dive</div>
+  <h2 class="sec-title">Full Destination Details</h2>
+  <p class="sec-desc">Budget breakdown, day-by-day itinerary, and honest pros & cons for each option.</p>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" data-tab="vn" onclick="switchTab('vn')">🇻🇳 Vietnam</button>
+    <button class="tab-btn" data-tab="sg" onclick="switchTab('sg')">🇸🇬 Singapore</button>
+    <button class="tab-btn" data-tab="my" onclick="switchTab('my')">🇲🇾 Malaysia</button>
+    <button class="tab-btn" data-tab="sm" onclick="switchTab('sm')">🇸🇬🇲🇾 SIN+MY</button>
+  </div>
+
+  <!-- Vietnam Panel -->
+  <div class="tab-panel active" id="panel-vn" style="--dc: var(--vn)">
+    <div class="dest-detail-grid">
+      <div>
+        <div class="detail-card" style="margin-bottom:1.5rem">
+          <div class="detail-card-title">Budget Breakdown · 2 People</div>
+          <table class="budget-tbl">
+            <tr><td>✈️ Round-trip Flights</td><td>Rs. 50,000 – 80,000</td></tr>
+            <tr><td>📋 E-visa (~$25)</td><td>Rs. 4,200 – 5,000</td></tr>
+            <tr><td>🏨 Hotels (4★ boutique)</td><td>Rs. 40,000 – 70,000</td></tr>
+            <tr><td>🍜 Meals</td><td>Rs. 25,000 – 40,000</td></tr>
+            <tr><td>🚌 Internal transit</td><td>Rs. 15,000 – 25,000</td></tr>
+            <tr><td>🛶 Activities (Ha Long!)</td><td>Rs. 25,000 – 45,000</td></tr>
+            <tr class="total-row"><td><strong>TOTAL</strong></td><td><strong>Rs. 1,59,200 – 2,65,000</strong></td></tr>
+          </table>
+          <div style="margin-top:1rem; padding:0.75rem; background:rgba(0,160,240,0.08); border-radius:0.5rem; border:1px solid rgba(0,160,240,0.2); font-size:0.82rem; color:var(--vn)">
+            💎 Rs. 3 Lakh budget = <strong>5-star boutique hotels + private guide + overnight Ha Long Bay cruise</strong> — true luxury tier!
+          </div>
+        </div>
+
+        <div class="detail-card">
+          <div class="detail-card-title">Pros & Cons</div>
+          <div class="pros-cons-grid">
+            <div class="pc-col">
+              <div class="pc-head pros">✅ Pros</div>
+              <ul class="pc-list pros">
+                <li>Best bang-for-rupee in SE Asia</li>
+                <li>Ha Long Bay — world-class experience</li>
+                <li>Rich culture, history & street food</li>
+                <li>Winter-to-summer climate journey</li>
+                <li>Rs. 3L = full luxury experience</li>
+              </ul>
+            </div>
+            <div class="pc-col">
+              <div class="pc-head cons">❌ Cons</div>
+              <ul class="pc-list cons">
+                <li>E-visa required ($25, plan ahead)</li>
+                <li>Language barrier outside cities</li>
+                <li>North Vietnam: cool & misty Dec</li>
+                <li>Long distances between regions</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="detail-card-title">8-Day Itinerary</div>
+        <ul class="itinerary-list">
+          <li><span class="itin-day">Day 1</span><div class="itin-content"><div class="itin-loc">Hanoi</div><div class="itin-act">Old Quarter, Hoan Kiem Lake, night markets & street pho</div></div></li>
+          <li><span class="itin-day">Day 2</span><div class="itin-content"><div class="itin-loc">Hanoi</div><div class="itin-act">Ho Chi Minh Mausoleum, Temple of Literature, water puppet show</div></div></li>
+          <li><span class="itin-day">Day 3</span><div class="itin-content"><div class="itin-loc">Ha Long Bay 🛶</div><div class="itin-act">Overnight cruise — limestone karsts, kayaking, cave tours (14–22°C, minimal rain)</div></div></li>
+          <li><span class="itin-day">Day 4</span><div class="itin-content"><div class="itin-loc">Hoi An</div><div class="itin-act">Morning flight to Da Nang → transfer to lantern-lit Hoi An Old Town</div></div></li>
+          <li><span class="itin-day">Day 5</span><div class="itin-content"><div class="itin-loc">Hoi An 🏖️</div><div class="itin-act">Historic sites, tailor shops, An Bang beach relaxation</div></div></li>
+          <li><span class="itin-day">Day 6</span><div class="itin-content"><div class="itin-loc">Ho Chi Minh City</div><div class="itin-act">Fly to Saigon — Notre-Dame Cathedral, Ben Thanh Market</div></div></li>
+          <li><span class="itin-day">Day 7</span><div class="itin-content"><div class="itin-loc">Cu Chi / Mekong 🌿</div><div class="itin-act">Cu Chi Tunnels OR Mekong Delta full-day guided tour</div></div></li>
+          <li><span class="itin-day">Day 8</span><div class="itin-content"><div class="itin-loc">Departure ✈️</div><div class="itin-act">Return flight from Ho Chi Minh City to Bengaluru</div></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Singapore Panel -->
+  <div class="tab-panel" id="panel-sg" style="--dc: var(--sg)">
+    <div class="dest-detail-grid">
+      <div>
+        <div class="detail-card" style="margin-bottom:1.5rem">
+          <div class="detail-card-title">Budget Breakdown · 2 People</div>
+          <table class="budget-tbl">
+            <tr><td>✈️ Round-trip Flights</td><td>Rs. 70,000 – 1,00,000</td></tr>
+            <tr><td>📋 Visa (via VFS)</td><td>Rs. 6,200 – 7,000</td></tr>
+            <tr><td>🏨 Hotels (3/4★)</td><td>Rs. 80,000 – 1,20,000</td></tr>
+            <tr><td>🍛 Meals</td><td>Rs. 40,000 – 60,000</td></tr>
+            <tr><td>🚇 EZ-Link transport</td><td>Rs. 5,000 – 8,000</td></tr>
+            <tr><td>🎡 Attractions (USS, Night Safari)</td><td>Rs. 40,000 – 55,000</td></tr>
+            <tr class="total-row"><td><strong>TOTAL</strong></td><td><strong>Rs. 2,41,200 – 3,50,000</strong></td></tr>
+          </table>
+          <div style="margin-top:1rem; padding:0.75rem; background:rgba(191,0,0,0.08); border-radius:0.5rem; border:1px solid rgba(191,0,0,0.2); font-size:0.82rem; color:var(--sg)">
+            ⚠️ <strong>Rain buffer alert!</strong> Dec = Northeast Monsoon. Keep 15% extra — Grab rides cost 10x MRT during afternoon showers (2–4PM)!
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="detail-card-title">Pros & Cons</div>
+          <div class="pros-cons-grid">
+            <div class="pc-col">
+              <div class="pc-head pros">✅ Pros</div>
+              <ul class="pc-list pros">
+                <li>Christmas Wonderland at GBTB 🎄</li>
+                <li>Orchard Road km-long festive lights</li>
+                <li>Universal Studios, Night Safari</li>
+                <li>English-speaking, safest city</li>
+                <li>World's best airport (Changi Jewel)</li>
+              </ul>
+            </div>
+            <div class="pc-col">
+              <div class="pc-head cons">❌ Cons</div>
+              <ul class="pc-list cons">
+                <li>Most expensive of all 4 options</li>
+                <li>Northeast Monsoon — rainy afternoons</li>
+                <li>Budget = mid-range only (no luxury)</li>
+                <li>Hidden rain cost inflation</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="detail-card">
+        <div class="detail-card-title">8-Day Itinerary</div>
+        <ul class="itinerary-list">
+          <li><span class="itin-day">Day 1</span><div class="itin-content"><div class="itin-loc">Marina Bay ✨</div><div class="itin-act">Arrive Changi, Merlion Park, Gardens by the Bay Christmas light show</div></div></li>
+          <li><span class="itin-day">Day 2</span><div class="itin-content"><div class="itin-loc">Sentosa Island 🎢</div><div class="itin-act">Universal Studios Singapore OR Adventure Cove + SEA Aquarium</div></div></li>
+          <li><span class="itin-day">Day 3</span><div class="itin-content"><div class="itin-loc">City Heritage</div><div class="itin-act">Singapore Flyer, Chinatown (Buddha Tooth Temple), Clarke Quay dinner</div></div></li>
+          <li><span class="itin-day">Day 4</span><div class="itin-content"><div class="itin-loc">Wildlife 🦁</div><div class="itin-act">Singapore Zoo OR Night Safari + Botanic Gardens (free!)</div></div></li>
+          <li><span class="itin-day">Day 5</span><div class="itin-content"><div class="itin-loc">Culture & Shop 🛍️</div><div class="itin-act">Little India, Arab Street, Orchard Road Christmas lights, hawker lunch</div></div></li>
+          <li><span class="itin-day">Day 6</span><div class="itin-content"><div class="itin-loc">Art & Gardens 🌺</div><div class="itin-act">National Museum, GBTB conservatories, Marina Bay Sands observation</div></div></li>
+          <li><span class="itin-day">Day 7</span><div class="itin-content"><div class="itin-loc">Pulau Ubin 🌿</div><div class="itin-act">Day trip — rustic island, cycling, mangrove nature walk</div></div></li>
+          <li><span class="itin-day">Day 8</span><div class="itin-content"><div class="itin-loc">Departure ✈️</div><div class="itin-act">Jewel Changi last-minute shopping, return flight to Bengaluru</div></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Malaysia Panel -->
+  <div class="tab-panel" id="panel-my" style="--dc: var(--my)">
+    <div class="dest-detail-grid">
+      <div>
+        <div class="detail-card" style="margin-bottom:1.5rem">
+          <div class="detail-card-title">Budget Breakdown · 2 People</div>
+          <table class="budget-tbl">
+            <tr><td>✈️ Round-trip Flights (BLR–KUL)</td><td>Rs. 40,000 – 55,000</td></tr>
+            <tr><td>🆓 Visa</td><td style="color:var(--my);font-weight:700">FREE (visa waiver!)</td></tr>
+            <tr><td>🏨 Hotels (4★ standard)</td><td>Rs. 40,000 – 65,000</td></tr>
+            <tr><td>🍢 Meals (Jalan Alor + more)</td><td>Rs. 15,000 – 25,000</td></tr>
+            <tr><td>✈️ Internal flights + transport</td><td>Rs. 10,000 – 18,000</td></tr>
+            <tr><td>🌴 Activities (Langkawi, Genting)</td><td>Rs. 25,000 – 40,000</td></tr>
+            <tr class="total-row"><td><strong>TOTAL</strong></td><td><strong>Rs. 1,30,000 – 2,03,000</strong></td></tr>
+          </table>
+          <div style="margin-top:1rem; padding:0.75rem; background:rgba(0,185,0,0.08); border-radius:0.5rem; border:1px solid rgba(0,185,0,0.2); font-size:0.82rem; color:var(--my)">
+            🏆 <strong>VISA FREE for Indians until Dec 31, 2026!</strong> Saves Rs. 10,000+ vs other options. Plus Langkawi duty-free shopping = extra savings!
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="detail-card-title">Pros & Cons</div>
+          <div class="pros-cons-grid">
+            <div class="pc-col">
+              <div class="pc-head pros">✅ Pros</div>
+              <ul class="pc-list pros">
+                <li>VISA FREE — saves Rs. 10,000+ 🎉</li>
+                <li>Cheapest flights from Bengaluru</li>
+                <li>BEST December weather (West Coast)</li>
+                <li>Langkawi: 8–9 hrs sunshine/day!</li>
+                <li>Duty-free shopping in Langkawi</li>
+                <li>Multicultural food heaven</li>
+              </ul>
+            </div>
+            <div class="pc-col">
+              <div class="pc-head cons">❌ Cons</div>
+              <ul class="pc-list cons">
+                <li>Fewer iconic landmarks vs Vietnam</li>
+                <li>Basic transport on islands</li>
+                <li>Avoid East Coast (monsoon closures)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="detail-card">
+        <div class="detail-card-title">8-Day Itinerary (KL + Penang + Langkawi)</div>
+        <ul class="itinerary-list">
+          <li><span class="itin-day">Day 1</span><div class="itin-content"><div class="itin-loc">Kuala Lumpur 🏙️</div><div class="itin-act">Arrive KL, Jalan Alor street food, Petronas Towers night view</div></div></li>
+          <li><span class="itin-day">Day 2</span><div class="itin-content"><div class="itin-loc">Kuala Lumpur</div><div class="itin-act">Batu Caves, Merdeka Square, Bukit Bintang, KL Tower SkyDeck</div></div></li>
+          <li><span class="itin-day">Day 3</span><div class="itin-content"><div class="itin-loc">Penang 🎨</div><div class="itin-act">Train to Penang, George Town street art, clan jetties, Gurney Drive food</div></div></li>
+          <li><span class="itin-day">Day 4</span><div class="itin-content"><div class="itin-loc">Penang 🏖️</div><div class="itin-act">Kek Lok Si Temple, Penang Hill cable car, Batu Ferringhi beach</div></div></li>
+          <li><span class="itin-day">Day 5</span><div class="itin-content"><div class="itin-loc">Langkawi ☀️</div><div class="itin-act">Fly to Langkawi, beach time, cable car + SkyBridge (8–9 hrs sunshine!)</div></div></li>
+          <li><span class="itin-day">Day 6</span><div class="itin-content"><div class="itin-loc">Langkawi 🛥️</div><div class="itin-act">Mangrove boat tour, snorkeling, duty-free shopping bonanza!</div></div></li>
+          <li><span class="itin-day">Day 7</span><div class="itin-content"><div class="itin-loc">Kuala Lumpur</div><div class="itin-act">Return to KL, Central Market, last temples & night markets</div></div></li>
+          <li><span class="itin-day">Day 8</span><div class="itin-content"><div class="itin-loc">Departure ✈️</div><div class="itin-act">Return flight from KL (KUL) to Bengaluru</div></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIN+MY Panel -->
+  <div class="tab-panel" id="panel-sm" style="--dc: var(--sm)">
+    <div class="dest-detail-grid">
+      <div>
+        <div class="detail-card" style="margin-bottom:1.5rem">
+          <div class="detail-card-title">Budget Breakdown · 2 People</div>
+          <table class="budget-tbl">
+            <tr><td>✈️ Open-jaw Flights (BLR→SIN / KUL→BLR)</td><td>Rs. 80,000 – 1,10,000</td></tr>
+            <tr><td>📋 Singapore Visa (MY is free)</td><td>Rs. 6,500 – 7,000</td></tr>
+            <tr><td>🏨 Hotels (3n SIN + 4n Malaysia)</td><td>Rs. 70,000 – 1,00,000</td></tr>
+            <tr><td>🚌 SIN → KUL Transit</td><td>Rs. 2,500 – 12,000</td></tr>
+            <tr><td>🍽️ Meals + Activities (both)</td><td>Rs. 50,000 – 75,000</td></tr>
+            <tr class="total-row"><td><strong>TOTAL</strong></td><td><strong>Rs. 2,09,000 – 3,04,000</strong></td></tr>
+          </table>
+          <div style="margin-top:1rem; padding:0.75rem; background:rgba(245,150,0,0.08); border-radius:0.5rem; border:1px solid rgba(245,150,0,0.2); font-size:0.82rem; color:var(--sm)">
+            ✈️ <strong>Route:</strong> BLR → SIN (fly in) → KUL (fly out) → BLR. Open-jaw saves backtracking. Only ONE visa needed!
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="detail-card-title">Pros & Cons</div>
+          <div class="pros-cons-grid">
+            <div class="pc-col">
+              <div class="pc-head pros">✅ Pros</div>
+              <ul class="pc-list pros">
+                <li>Maximum variety: city + beach + culture</li>
+                <li>Best of SIN and Malaysia combined</li>
+                <li>Only ONE visa needed (SIN)</li>
+                <li>Open-jaw routing is time-efficient</li>
+                <li>Uses full Rs. 3L budget wisely</li>
+              </ul>
+            </div>
+            <div class="pc-col">
+              <div class="pc-head cons">❌ Cons</div>
+              <ul class="pc-list cons">
+                <li>Most complex logistics of all 4</li>
+                <li>Rushed pace — less depth per city</li>
+                <li>More packing/unpacking mid-trip</li>
+                <li>Highest cost option overall</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="detail-card">
+        <div class="detail-card-title">8-Day Combined Itinerary</div>
+        <ul class="itinerary-list">
+          <li><span class="itin-day" style="background:rgba(191,0,0,0.2);border-color:rgba(191,0,0,0.4);color:var(--sg)">Day 1</span><div class="itin-content"><div class="itin-loc" style="color:var(--sg)">Singapore 🇸🇬</div><div class="itin-act">Arrive Changi, Marina Bay Sands, Merlion Park, GBTB Christmas show</div></div></li>
+          <li><span class="itin-day" style="background:rgba(191,0,0,0.2);border-color:rgba(191,0,0,0.4);color:var(--sg)">Day 2</span><div class="itin-content"><div class="itin-loc" style="color:var(--sg)">Singapore 🎢</div><div class="itin-act">Sentosa — Universal Studios or Adventure Cove + SEA Aquarium</div></div></li>
+          <li><span class="itin-day" style="background:rgba(191,0,0,0.2);border-color:rgba(191,0,0,0.4);color:var(--sg)">Day 3</span><div class="itin-content"><div class="itin-loc" style="color:var(--sg)">Singapore 🦁</div><div class="itin-act">Night Safari / Zoo, Chinatown, Little India cultural evening</div></div></li>
+          <li><span class="itin-day">Day 4</span><div class="itin-content"><div class="itin-loc">Kuala Lumpur 🇲🇾</div><div class="itin-act">Morning bus/flight to KL, Petronas Towers at golden hour</div></div></li>
+          <li><span class="itin-day">Day 5</span><div class="itin-content"><div class="itin-loc">Kuala Lumpur</div><div class="itin-act">Batu Caves, Merdeka Square, Bukit Bintang night market</div></div></li>
+          <li><span class="itin-day">Day 6</span><div class="itin-content"><div class="itin-loc">Langkawi ☀️</div><div class="itin-act">Fly to Langkawi, cable car + SkyBridge, beach relaxation</div></div></li>
+          <li><span class="itin-day">Day 7</span><div class="itin-content"><div class="itin-loc">Langkawi 🛥️</div><div class="itin-act">Mangrove tour, duty-free shopping, last tropical evening</div></div></li>
+          <li><span class="itin-day">Day 8</span><div class="itin-content"><div class="itin-loc">Departure ✈️</div><div class="itin-act">Return flight from KL (KUL) to Bengaluru</div></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════ BUDGET CHART ══════════ -->
+<section class="reveal">
+  <div class="sec-label">Cost Analysis</div>
+  <h2 class="sec-title">Budget Comparison</h2>
+  <p class="sec-desc">Visualizing the total cost range for each option (for 2 people, 7–8 days).</p>
+
+  <div class="budget-chart">
+    <div class="bchart-row reveal">
+      <div class="bchart-label">
+        <span class="bchart-dest" style="color:var(--vn)">🇻🇳 Vietnam</span>
+        <span class="bchart-range">Rs. 1.59L – 2.65L</span>
+      </div>
+      <div class="bchart-track">
+        <div class="bchart-bar" style="--bc:var(--vn);--bc-glow:var(--vn-glow);width:0" data-width="75.7" data-label="Rs. 2.65L max"></div>
+      </div>
+    </div>
+    <div class="bchart-row reveal">
+      <div class="bchart-label">
+        <span class="bchart-dest" style="color:var(--sg)">🇸🇬 Singapore</span>
+        <span class="bchart-range">Rs. 2.41L – 3.50L</span>
+      </div>
+      <div class="bchart-track">
+        <div class="bchart-bar" style="--bc:var(--sg);--bc-glow:var(--sg-glow);width:0" data-width="100" data-label="Rs. 3.50L max"></div>
+      </div>
+    </div>
+    <div class="bchart-row reveal">
+      <div class="bchart-label">
+        <span class="bchart-dest" style="color:var(--my)">🇲🇾 Malaysia</span>
+        <span class="bchart-range">Rs. 1.30L – 2.03L</span>
+      </div>
+      <div class="bchart-track">
+        <div class="bchart-bar" style="--bc:var(--my);--bc-glow:var(--my-glow);width:0" data-width="58" data-label="Rs. 2.03L max"></div>
+      </div>
+    </div>
+    <div class="bchart-row reveal">
+      <div class="bchart-label">
+        <span class="bchart-dest" style="color:var(--sm)">🇸🇬🇲🇾 SIN + Malaysia</span>
+        <span class="bchart-range">Rs. 2.09L – 3.04L</span>
+      </div>
+      <div class="bchart-track">
+        <div class="bchart-bar" style="--bc:var(--sm);--bc-glow:var(--sm-glow);width:0" data-width="86.9" data-label="Rs. 3.04L max"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="budget-legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--my)"></div><span style="color:var(--my);font-weight:700">Malaysia = Cheapest</span> — max Rs. 2.03L</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--vn)"></div><span style="color:var(--vn);font-weight:700">Vietnam</span> — max Rs. 2.65L</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--sm)"></div><span style="color:var(--sm);font-weight:700">SIN + MY</span> — max Rs. 3.04L</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--sg)"></div><span style="color:var(--sg);font-weight:700">Singapore = Priciest</span> — max Rs. 3.50L</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════ SCORECARD ══════════ -->
+<section class="reveal">
+  <div class="sec-label">Category Ratings</div>
+  <h2 class="sec-title">How Each Destination Scores</h2>
+  <p class="sec-desc">Ratings out of 100 across 6 key travel categories. Hover each bar to see the score.</p>
+
+  <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem">
+    <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.82rem"><div style="width:12px;height:12px;border-radius:2px;background:var(--vn)"></div>Vietnam</div>
+    <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.82rem"><div style="width:12px;height:12px;border-radius:2px;background:var(--sg)"></div>Singapore</div>
+    <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.82rem"><div style="width:12px;height:12px;border-radius:2px;background:var(--my)"></div>Malaysia</div>
+    <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.82rem"><div style="width:12px;height:12px;border-radius:2px;background:var(--sm)"></div>SIN+MY</div>
+  </div>
+
+  <div class="scorecard-grid">
+    <!-- Value/Money -->
+    <div class="score-row reveal">
+      <div class="score-row-head">
+        <span class="score-cat">💰 Value for Money</span>
+      </div>
+      <div class="score-labels">
+        <span class="score-lbl" style="color:var(--vn)">VN 95</span>
+        <span class="score-lbl" style="color:var(--sg)">SG 50</span>
+        <span class="score-lbl" style="color:var(--my)">MY 90</span>
+        <span class="score-lbl" style="color:var(--sm)">SM 65</span>
+      </div>
+      <div class="score-bars">
+        <div class="score-track"><div class="score-fill" style="--sc:var(--vn);width:0" data-w="95"></div></div>
+        <div class="score-track"><div class="score-fill" style="--sc:var(--sg);width:0" data-w="50"></div></div>
+        <div class="score-track"><div class="score-fill" style="--sc:var(--my);width:0" data-w="90"></div></div>
+        <div class="score-track"><div class="score-fill" style="--sc:var(--sm);width:0" data-w="65"></div></div>
+      </div>
+    </div>
+    <!-- Weather -->
+    <div class="score-row reveal">
+      <div class="score-row-head">
+        <span class="score-cat">🌤️ December Weather</span>
+      </div>
+      <div class="score-labels">
+        <span class="score-lbl" style="color:var(--vn)">VN 75</span>
+        <span class="score-lbl" style="color:var(--sg)">SG 50</span>
+        <span class="score-lbl" style="color:var(--my)">MY 95</span>
+        <span class="score-lbl" style="color:var(--sm)">SM 70</span>
+      </div>
+      <div class="score-bars">
+        <div class="score-track"><div class="score-fill" style="--sc:var(--vn);width:0" data-w="75"></div></div>
+        <div class="score-track"><div class="score-fill" style="--sc:var(--sg);width:0" data-w="50"></div></div>
+        <div class="score-track"><div class="score-fill" style="--sc:var(--my);width:0" data-w="95"></div></div>
+        <div class="score-track"><div class="score-fill" style="--sc:var(--sm);width:0" data-w="70"></div></div>
+      </div>
+    </div>
+    <!-- Visa Ease -->
+    <div class="score-row reveal">
+      <div class="score-row-head">
+        <span class="score-cat">🛂 Visa Ease</span>
+      </div>
+      <div class="score-labels">
+        <span class="score-lbl" style="color:var(--vn)">VN 75</span>
+        <span class="score-lbl" style="color:var(--sg)">SG 55</span>
+        <span class="score-lbl" style="color:var(--my)">MY 100</span>
+        <span class="score-lbl" style="color:var(--sm)">SM 65</span>
+      </div>
+      <div class="score-bars">
+        <div class="score-track"><div class="score-fill" style="--sc:var(--vn);width:0" data-w="75"></div></div>
+        <div class="score-track"><div class="score-fill" style="--sc:var(--sg);width:0" data-w="55"></div></div>
+        <div class="score-track"><div class="score-fill" style="--sc:var(--my);width:0" data-w="100"></div></div>
+        <div class="score-track"><div class="score-fill" style="--sc:var(--sm);width:0" data-w="65"></div></div>
+      </div>
+    </div>
+    <!-- Festive Vibes -->
+    <div class="score-row reveal">
+      <div class="score-row-head">
+        <span class="score-cat">🎄 Festive Vibes</span>
+      </div>
+      <div class="score-labels">
+        <span class="score-lbl" style="color:var(--vn)">VN 55</span>
+        <span class="score-lbl" style="color:var(--sg)">SG 95</span>
+        <span class="score-lbl" style="color:var(--my)">MY 55</span>
+        <span class="score-lbl" style="color:var(--sm)">SM 80</span>
+      </div>
+      <div class="score-bars">
+        <div class="score-track"><div class="score-fill" style="--sc:var(--vn);width:0" data-w="55"></div></div>
+        <div class="score-track"><div class="score-fill" style="--sc:var(--sg);width:0" data-w="95"></div></div>
+        <div class="score-track"><div class="score-fill" style="--sc:var(--my);width:0" data-w="55"></div></div>
+        <div class="score-track"><div class="score-fill" style="--sc:var(--sm);width:0" data-w="80"></div></div>
+      </div>
+    </div>
+    <!-- Culture -->
+    <div class="score-row reveal">
+      <div class="score-row-head">
+        <span class="score-cat">🏛️ Culture & History</span>
+      </div>
+      <div class="score-labels">
+        <span class="score-lbl" style="color:var(--vn)">VN 95</span>
+        <span class="score-lbl" style="color:var(--sg)">SG 80</span>
+        <span class="score-lbl" style="color:var(--my)">MY 75</span>
+        <span class="score-lbl" style="color:var(--sm)">SM 80</span>
+      </div>
+      <div class="score-bars">
+        <div class="score-track"><div class="score-fill" style="--sc:var(--vn);width:0" data-w="95"></div></div>
+        <div class="score-track"><div class="score-fill" style="--sc:var(--sg);width:0" data-w="80"></div></div>
+        <div class="score-track"><div class="score-fill" style="--sc:var(--my);width:0" data-w="75"></div></div>
+        <div class="score-track"><div class="score-fill" style="--sc:var(--sm);width:0" data-w="80"></div></div>
+      </div>
+    </div>
+    <!-- Beach/Nature -->
+    <div class="score-row reveal">
+      <div class="score-row-head">
+        <span class="score-cat">🏖️ Beach & Nature</span>
+      </div>
+      <div class="score-labels">
+        <span class="score-lbl" style="color:var(--vn)">VN 75</span>
+        <span class="score-lbl" style="color:var(--sg)">SG 40</span>
+        <span class="score-lbl" style="color:var(--my)">MY 90</span>
+        <span class="score-lbl" style="color:var(--sm)">SM 70</span>
+      </div>
+      <div class="score-bars">
+        <div class="score-track"><div class="score-fill" style="--sc:var(--vn);width:0" data-w="75"></div></div>
+        <div class="score-track"><div class="score-fill" style="--sc:var(--sg);width:0" data-w="40"></div></div>
+        <div class="score-track"><div class="score-fill" style="--sc:var(--my);width:0" data-w="90"></div></div>
+        <div class="score-track"><div class="score-fill" style="--sc:var(--sm);width:0" data-w="70"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════ DECISION HELPER QUIZ ══════════ -->
+<section class="reveal">
+  <div class="sec-label">Decision Helper</div>
+  <h2 class="sec-title">Find Your Perfect Match</h2>
+  <p class="sec-desc">Answer 3 quick questions and we'll recommend the best destination for you.</p>
+
+  <div class="quiz-wrap">
+    <div class="quiz-progress">
+      <div class="qp-dot active" id="qp-1"></div>
+      <div class="qp-dot" id="qp-2"></div>
+      <div class="qp-dot" id="qp-3"></div>
+    </div>
+
+    <div id="quiz-question-wrap">
+      <div class="quiz-q" id="quiz-q-text">What matters most to you on this trip?</div>
+      <div class="quiz-hint" id="quiz-q-hint">Pick the one that resonates most with what you're looking for.</div>
+      <div class="quiz-options" id="quiz-options"></div>
+    </div>
+
+    <div class="quiz-result" id="quiz-result">
+      <div class="result-badge" id="result-badge"></div>
+      <div class="result-title" id="result-title"></div>
+      <div id="result-tag" style="margin-bottom:1rem"></div>
+      <div class="result-reason" id="result-reason"></div>
+      <button class="quiz-reset-btn" onclick="resetQuiz()">↺ Try Again</button>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════ GROUP VOTE ══════════ -->
+<section class="reveal">
+  <div class="sec-label">The Moment of Truth</div>
+  <h2 class="sec-title">Group Vote 🗳️</h2>
+  <p class="sec-desc">Each person taps their choice! Most votes wins. (Votes persist in this browser session.)</p>
+
+  <div class="vote-grid">
+    <div class="vote-card" id="vcard-vn" data-vote="vn" onclick="castVote('vn')">
+      <div class="vote-letter">A</div>
+      <div class="vote-dest">Vietnam 🇻🇳</div>
+      <div class="vote-tag">Best Value + Luxury</div>
+      <div class="vote-count" id="vc-vn">0</div>
+      <div class="vote-count-lbl">votes</div>
+      <div class="vote-bar-wrap"><div class="vote-bar" id="vb-vn" style="width:0%"></div></div>
+    </div>
+    <div class="vote-card" id="vcard-sg" data-vote="sg" onclick="castVote('sg')">
+      <div class="vote-letter">B</div>
+      <div class="vote-dest">Singapore 🇸🇬</div>
+      <div class="vote-tag">Festive Christmas Pick</div>
+      <div class="vote-count" id="vc-sg">0</div>
+      <div class="vote-count-lbl">votes</div>
+      <div class="vote-bar-wrap"><div class="vote-bar" id="vb-sg" style="width:0%"></div></div>
+    </div>
+    <div class="vote-card" id="vcard-my" data-vote="my" onclick="castVote('my')">
+      <div class="vote-letter">C</div>
+      <div class="vote-dest">Malaysia 🇲🇾</div>
+      <div class="vote-tag">Smartest Choice</div>
+      <div class="vote-count" id="vc-my">0</div>
+      <div class="vote-count-lbl">votes</div>
+      <div class="vote-bar-wrap"><div class="vote-bar" id="vb-my" style="width:0%"></div></div>
+    </div>
+    <div class="vote-card" id="vcard-sm" data-vote="sm" onclick="castVote('sm')">
+      <div class="vote-letter">D</div>
+      <div class="vote-dest">SIN + Malaysia 🇸🇬🇲🇾</div>
+      <div class="vote-tag">Maximum Variety</div>
+      <div class="vote-count" id="vc-sm">0</div>
+      <div class="vote-count-lbl">votes</div>
+      <div class="vote-bar-wrap"><div class="vote-bar" id="vb-sm" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <div class="vote-instruction" id="vote-instruction">
+    👆 Tap your choice above! Each tap adds a vote. Share this page with everyone in the group.
+  </div>
+  <button class="vote-reset" onclick="resetVotes()">Reset all votes</button>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════ EXPERT RECS ══════════ -->
+<section class="reveal">
+  <div class="sec-label">Final Verdict</div>
+  <h2 class="sec-title">Expert Recommendation</h2>
+  <p class="sec-desc">Based on your budget, December 2026 conditions, and the full research breakdown.</p>
+
+  <div class="rec-list">
+    <div class="rec-item" data-ri="vn">
+      <div class="rec-rank">1</div>
+      <div class="rec-body">
+        <div class="rec-head">
+          <span class="rec-name">🇻🇳 Vietnam</span>
+          <span class="rec-tag">BEST VALUE + LUXURY</span>
+        </div>
+        <div class="rec-text">Rs. 3L budget unlocks a genuine <strong>5-star experience</strong> — private boutique hotels in Hoi An, overnight Ha Long Bay cruise with private cabin, and personal guides throughout. No other destination gives this level of luxury within your budget. Unmatched cultural depth with the winter-to-summer climate journey from Hanoi to Saigon.</div>
+        <div class="rec-who">→ Pick this if: Luxury + culture + unique experiences matter most</div>
+      </div>
+    </div>
+
+    <div class="rec-item" data-ri="my">
+      <div class="rec-rank">2</div>
+      <div class="rec-body">
+        <div class="rec-head">
+          <span class="rec-name">🇲🇾 Malaysia</span>
+          <span class="rec-tag">EASIEST + BEST WEATHER</span>
+        </div>
+        <div class="rec-text">The <strong>visa-free advantage</strong> saves Rs. 10,000+ instantly. Cheapest flights from BLR. West Coast has the BEST December weather in all 4 options — Langkawi gets 8–9 hours of pure sunshine daily. Zero planning stress. Duty-free shopping at Langkawi further offsets costs. Perfect for a stress-free tropical escape.</div>
+        <div class="rec-who">→ Pick this if: Stress-free beach holiday + savings is the top priority</div>
+      </div>
+    </div>
+
+    <div class="rec-item" data-ri="sm">
+      <div class="rec-rank">3</div>
+      <div class="rec-body">
+        <div class="rec-head">
+          <span class="rec-name">🇸🇬🇲🇾 Singapore + Malaysia</span>
+          <span class="rec-tag">MAXIMUM VARIETY</span>
+        </div>
+        <div class="rec-text">For the group that can't choose — get both! <strong>3 nights of Singapore's city glamour</strong> + 5 nights of Malaysia's tropical beaches. Open-jaw routing (fly in SIN, fly out KUL) is the most efficient strategy. Only one visa needed. Uses the full Rs. 3L budget very intelligently with maximum experiential return.</div>
+        <div class="rec-who">→ Pick this if: You want the maximum variety and "we saw it all" satisfaction</div>
+      </div>
+    </div>
+
+    <div class="rec-item" data-ri="sg">
+      <div class="rec-rank">4</div>
+      <div class="rec-body">
+        <div class="rec-head">
+          <span class="rec-name">🇸🇬 Singapore</span>
+          <span class="rec-tag">FOR CHRISTMAS LOVERS</span>
+        </div>
+        <div class="rec-text">Christmas Wonderland at Gardens by the Bay and Orchard Road's km-long festive lights are genuinely unforgettable. BUT: the Rs. 3L budget gets you <strong>mid-range comfort only</strong> (no luxury). December is also peak monsoon — budget a 15% rain buffer for Grab rides. Worth it only if Christmas atmosphere is non-negotiable.</div>
+        <div class="rec-who">→ Pick this if: December festivity and Christmas atmosphere is the #1 priority</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="footer">
+  <div style="font-size:1.5rem;margin-bottom:0.5rem">✈️ 🌏 🎉</div>
+  <div style="font-weight:600;margin-bottom:0.4rem">December 2026 Group Trip Planner</div>
+  <div>Research compiled from <a href="https://vietnamdiscovery.com">Vietnam Discovery</a> · <a href="https://www.visitsingapore.com">Visit Singapore</a> · <a href="https://tripcabinet.com">TripCabinet</a> · <a href="https://gotripzi.com">GoTripzi</a> · <a href="https://www.kayak.com">KAYAK</a></div>
+  <div style="margin-top:0.5rem;opacity:0.5">Whichever you pick — have an incredible trip! 🥂</div>
+</footer>
+
+</div><!-- /wrap -->
+
+<script>
+// ─── STARFIELD CANVAS ─────────────────────────────────────────────────────────
+(function() {
+  const canvas = document.getElementById('canvas-bg');
+  const ctx = canvas.getContext('2d');
+  let W, H, stars = [], particles = [];
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function initStars() {
+    stars = [];
+    for (let i = 0; i < 120; i++) {
+      stars.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.5,
+        a: Math.random(),
+        speed: Math.random() * 0.3 + 0.1,
+        twinkle: Math.random() * Math.PI * 2
+      });
+    }
+  }
+
+  function animStars() {
+    ctx.clearRect(0, 0, W, H);
+    const t = Date.now() * 0.001;
+    stars.forEach(s => {
+      s.twinkle += s.speed * 0.02;
+      const alpha = (Math.sin(s.twinkle) * 0.4 + 0.6) * 0.6;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(200,220,255,${alpha})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(animStars);
+  }
+
+  window.addEventListener('resize', () => { resize(); initStars(); });
+  resize(); initStars(); animStars();
+})();
+
+// ─── TAB SYSTEM ───────────────────────────────────────────────────────────────
+function switchTab(dest) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === dest));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + dest));
+}
+
+// ─── REVEAL ON SCROLL ─────────────────────────────────────────────────────────
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      // Animate score bars
+      e.target.querySelectorAll('.score-fill[data-w]').forEach(el => {
+        el.style.width = el.dataset.w + '%';
+      });
+      // Animate budget bars
+      e.target.querySelectorAll('.bchart-bar[data-width]').forEach(el => {
+        el.style.width = el.dataset.width + '%';
+      });
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+// Trigger main score bars on section visibility
+const scoreObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      document.querySelectorAll('.score-fill[data-w]').forEach(el => {
+        el.style.width = el.dataset.w + '%';
+      });
+    }
+  });
+}, { threshold: 0.1 });
+
+const scoreSection = document.querySelector('.scorecard-grid');
+if (scoreSection) scoreObs.observe(scoreSection);
+
+// ─── QUIZ ──────────────────────────────────────────────────────────────────────
+const quizData = [
+  {
+    q: "What matters most to you on this trip?",
+    hint: "Pick the one that resonates most with what you're after.",
+    opts: [
+      { text: "💎 Luxury & unique cultural experiences within budget", val: "luxury" },
+      { text: "🏖️ Relaxation, beaches & stress-free planning", val: "relax" },
+      { text: "🎄 Maximum festive Christmas atmosphere", val: "festive" },
+      { text: "🗺️ Seeing as much variety as possible", val: "variety" }
+    ]
+  },
+  {
+    q: "How do you feel about rainy weather?",
+    hint: "December weather varies significantly across destinations.",
+    opts: [
+      { text: "😰 We absolutely hate rain — it ruins the trip!", val: "rain_hate" },
+      { text: "😐 A bit of rain is fine, we'll manage", val: "rain_ok" },
+      { text: "🌧️ We don't mind — we have indoor backup plans", val: "rain_fine" }
+    ]
+  },
+  {
+    q: "What's your budget comfort level?",
+    hint: "For 2 people, 7–8 days from Bengaluru.",
+    opts: [
+      { text: "💸 Maximize luxury — get the most experience per rupee", val: "max_lux" },
+      { text: "🎯 Balanced — good comfort within 2–2.5L", val: "balanced" },
+      { text: "💰 Save as much as possible", val: "save" }
+    ]
+  }
+];
+
+let quizAnswers = [];
+let currentQ = 0;
+
+function renderQuestion() {
+  const q = quizData[currentQ];
+  document.getElementById('quiz-q-text').textContent = q.q;
+  document.getElementById('quiz-q-hint').textContent = q.hint;
+  const optsEl = document.getElementById('quiz-options');
+  optsEl.innerHTML = '';
+  q.opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-opt';
+    btn.textContent = opt.text;
+    btn.onclick = () => answerQuiz(opt.val, btn);
+    optsEl.appendChild(btn);
+  });
+
+  // Update progress
+  document.querySelectorAll('.qp-dot').forEach((dot, i) => {
+    dot.classList.toggle('active', i === currentQ);
+    dot.classList.toggle('done', i < currentQ);
+  });
+}
+
+function answerQuiz(val, btn) {
+  document.querySelectorAll('.quiz-opt').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  quizAnswers[currentQ] = val;
+  setTimeout(() => {
+    currentQ++;
+    if (currentQ < quizData.length) {
+      renderQuestion();
+    } else {
+      showResult();
+    }
+  }, 400);
+}
+
+function showResult() {
+  document.getElementById('quiz-question-wrap').style.display = 'none';
+  const resultEl = document.getElementById('quiz-result');
+  resultEl.classList.add('show');
+
+  // Logic: determine best option
+  let scores = { vn: 0, sg: 0, my: 0, sm: 0 };
+
+  const [a1, a2, a3] = quizAnswers;
+
+  if (a1 === 'luxury') { scores.vn += 3; }
+  else if (a1 === 'relax') { scores.my += 3; }
+  else if (a1 === 'festive') { scores.sg += 3; }
+  else if (a1 === 'variety') { scores.sm += 3; }
+
+  if (a2 === 'rain_hate') { scores.my += 2; scores.vn += 1; }
+  else if (a2 === 'rain_ok') { scores.sm += 1; scores.vn += 1; }
+  else if (a2 === 'rain_fine') { scores.sg += 2; scores.sm += 1; }
+
+  if (a3 === 'max_lux') { scores.vn += 2; }
+  else if (a3 === 'balanced') { scores.sm += 2; scores.my += 1; }
+  else if (a3 === 'save') { scores.my += 3; scores.vn += 1; }
+
+  const winner = Object.entries(scores).sort((a,b) => b[1]-a[1])[0][0];
+
+  const results = {
+    vn: {
+      badge: '🇻🇳',
+      title: 'Vietnam is your match!',
+      tag: 'Option A · Best Value + Luxury',
+      color: 'var(--vn)',
+      reason: 'Your priorities point directly to Vietnam — the only destination where Rs. 3 Lakh unlocks a genuine luxury experience. Ha Long Bay, boutique hotels in Hoi An, rich history and street food culture. Best bang-for-rupee in Southeast Asia, hands down.'
+    },
+    sg: {
+      badge: '🇸🇬',
+      title: 'Singapore is your match!',
+      tag: 'Option B · Festive Christmas Pick',
+      color: 'var(--sg)',
+      reason: "The festive atmosphere is unrivalled — Christmas Wonderland at Gardens by the Bay and Orchard Road's lights are bucket-list moments. You're comfortable with some rain risk, and the city's indoor infrastructure means the occasional shower won't slow you down."
+    },
+    my: {
+      badge: '🇲🇾',
+      title: 'Malaysia is your match!',
+      tag: 'Option C · Smartest Choice',
+      color: 'var(--my)',
+      reason: "Malaysia is the strategic winner for your priorities — VISA FREE saves Rs. 10,000+ immediately, cheapest flights, the BEST December weather of all 4 options (Langkawi gets 8–9 hours sunshine/day), and you don't have to worry about rain at all on the West Coast."
+    },
+    sm: {
+      badge: '🇸🇬🇲🇾',
+      title: 'Singapore + Malaysia!',
+      tag: 'Option D · Maximum Variety',
+      color: 'var(--sm)',
+      reason: "You want balanced experiences and variety — this is your answer! 3 nights of Singapore's city magic + 5 nights of Malaysia's tropical bliss. Open-jaw routing (fly SIN, exit KUL) makes it efficient. Only one visa needed, and it uses your full budget strategically."
+    }
+  };
+
+  const r = results[winner];
+  document.getElementById('result-badge').textContent = r.badge;
+  document.getElementById('result-title').textContent = r.title;
+  document.getElementById('result-title').style.color = r.color;
+  document.getElementById('result-tag').innerHTML = `<span style="display:inline-block;padding:0.3rem 0.8rem;border-radius:2rem;background:color-mix(in srgb,${r.color} 20%,transparent);color:${r.color};font-size:0.8rem;font-weight:700;border:1px solid color-mix(in srgb,${r.color} 40%,transparent)">${r.tag}</span>`;
+  document.getElementById('result-reason').textContent = r.reason;
+}
+
+function resetQuiz() {
+  quizAnswers = [];
+  currentQ = 0;
+  document.getElementById('quiz-result').classList.remove('show');
+  document.getElementById('quiz-question-wrap').style.display = 'block';
+  renderQuestion();
+}
+
+renderQuestion();
+
+// ─── VOTE SYSTEM ──────────────────────────────────────────────────────────────
+let votes = JSON.parse(localStorage.getItem('travel-votes-2026') || '{"vn":0,"sg":0,"my":0,"sm":0}');
+let myVote = localStorage.getItem('my-travel-vote-2026') || null;
+
+function updateVoteUI() {
+  const total = Object.values(votes).reduce((a,b) => a+b, 0);
+  ['vn','sg','my','sm'].forEach(d => {
+    document.getElementById('vc-' + d).textContent = votes[d];
+    const pct = total > 0 ? (votes[d] / total * 100) : 0;
+    document.getElementById('vb-' + d).style.width = pct + '%';
+    document.getElementById('vcard-' + d).classList.toggle('voted', myVote === d);
+  });
+
+  if (total > 0) {
+    const leader = Object.entries(votes).sort((a,b) => b[1]-a[1])[0];
+    const names = { vn:'Vietnam', sg:'Singapore', my:'Malaysia', sm:'SIN + Malaysia' };
+    document.getElementById('vote-instruction').innerHTML =
+      `🏆 Leading: <strong style="color:var(--${leader[0]})">${names[leader[0]]}</strong> with ${leader[1]} vote${leader[1]===1?'':'s'} out of ${total} total! Keep voting!`;
+  }
+}
+
+function castVote(dest) {
+  votes[dest]++;
+  myVote = dest;
+  localStorage.setItem('travel-votes-2026', JSON.stringify(votes));
+  localStorage.setItem('my-travel-vote-2026', dest);
+
+  const countEl = document.getElementById('vc-' + dest);
+  countEl.classList.remove('pop');
+  void countEl.offsetWidth;
+  countEl.classList.add('pop');
+
+  updateVoteUI();
+}
+
+function resetVotes() {
+  votes = { vn:0, sg:0, my:0, sm:0 };
+  myVote = null;
+  localStorage.removeItem('travel-votes-2026');
+  localStorage.removeItem('my-travel-vote-2026');
+  document.getElementById('vote-instruction').innerHTML = '👆 Tap your choice above! Each tap adds a vote. Share this page with everyone in the group.';
+  updateVoteUI();
+}
+
+updateVoteUI();
+</script>
+</body>
+</html>
